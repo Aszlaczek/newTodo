@@ -1,17 +1,36 @@
-import { useState } from 'react'
-import './App.scss'
-import Form from './Form'
+import { useState } from "react";
+import "./App.scss";
+import Form from "./Form";
+import ListTasks from "./Todo";
+import { Task } from "./Types";
 const App = () => {
-    const [name, setName] = useState()
-    const handleData = (data: string) => {
-        setName(data)
-    }
-    return (
-        <div className='container'>
-            <Form sendData={handleData} />
-            <button onClick={() => console.log(name)}>Show</button>
-        </div>
-    )
-}
+  const [todo, setTodo] = useState<Task[] | []>([]);
 
-export default App
+  const addTodo = (action: string) => {
+    setTodo([
+      { id: todo.length, name: action, isReady: false, isEditing: false },
+      ...todo,
+    ]);
+  };
+
+  const toggleComplete = (id: number) => {
+    setTodo(
+      todo.map((e) => {
+        return e.id === id ? { ...e, isReady: !e.isReady } : e;
+      })
+    );
+  };
+  console.log(todo);
+  return (
+    <div className="container">
+      <Form sendData={addTodo} />
+      {todo.map((e) => {
+        return (
+          <ListTasks task={e} key={e.id} toggleComplete={toggleComplete} />
+        );
+      })}
+    </div>
+  );
+};
+
+export default App;
