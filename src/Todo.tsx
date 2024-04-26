@@ -1,6 +1,11 @@
 import { Task } from "./Types";
 
-const Todo = (props: { task: Task; toggleComplete: Function }) => {
+const Todo = (props: {
+  task: Task;
+  toggleComplete: Function;
+  deleteItem: Function;
+  editItem: Function
+}) => {
   return (
     <div className="item">
       <div className="id">{props.task.id}</div>
@@ -12,8 +17,10 @@ const Todo = (props: { task: Task; toggleComplete: Function }) => {
       >
         {props.task.name}
       </p>
-      <div className="edit">edit</div>
-      <div className="delete">delete</div>
+      <div className="edit" onClick={() => props.editItem(props.task.id)}>edit</div>
+      <div className="delete" onClick={() => props.deleteItem(props.task.id)}>
+        delete
+      </div>
     </div>
   );
 };

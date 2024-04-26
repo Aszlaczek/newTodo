@@ -1,5 +1,6 @@
+import { AiFillCheckCircle } from "react-icons/ai";
 import { FormEvent, useState } from "react";
-import add_symbol from "./assets/add_FILL0_wght400_GRAD0_opsz24.svg";
+import { IconContext } from "react-icons";
 const Form = (props: { sendData: Function }) => {
   const [name, setName] = useState("");
   const makeTransfer = (e: FormEvent<HTMLElement>) => {
@@ -17,7 +18,9 @@ const Form = (props: { sendData: Function }) => {
         onChange={(e) => setName(e.target.value)}
       />
       <button type="submit">
-        <img src={add_symbol} alt="add" />
+        <IconContext.Provider value={{ className: 'icons' }}>
+          <AiFillCheckCircle />
+        </IconContext.Provider>
       </button>
     </form>
   );

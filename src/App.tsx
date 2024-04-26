@@ -20,13 +20,34 @@ const App = () => {
       })
     );
   };
+
+  const deleteItem = (id: number) => {
+    setTodo(
+      todo.filter(e => e.id !== id)
+    );
+  };
+
+  const editItem = (id: number) => {
+    setTodo(
+      todo.map(e => {
+        return e.id === id ? { ...e, isEditing: !e.isEditing } : e;
+      })
+    )
+  }
+
   console.log(todo);
   return (
     <div className="container">
       <Form sendData={addTodo} />
       {todo.map((e) => {
         return (
-          <ListTasks task={e} key={e.id} toggleComplete={toggleComplete} />
+          <ListTasks
+            task={e}
+            key={e.id}
+            toggleComplete={toggleComplete}
+            deleteItem={deleteItem}
+            editItem={editItem}
+          />
         );
       })}
     </div>
