@@ -3,6 +3,7 @@ import "./App.scss";
 import Form from "./Form";
 import ListTasks from "./Todo";
 import { Task } from "./Types";
+import EditingForm from "./EditingForm";
 const App = () => {
   const [todo, setTodo] = useState<Task[] | []>([]);
 
@@ -35,23 +36,32 @@ const App = () => {
     )
   }
 
-  console.log(todo);
+  const editTask = (task: string, id: number) => {
+    setTodo(
+      todo.map(e => {
+        return e.id === id ? { ...e, name: task, isEditing: !e.isEditing } : e
+      }))
+  }
+
   return (
     <div className="container">
       <Form sendData={addTodo} />
       {todo.map((e) => {
-        return (
-          <ListTasks
-            task={e}
-            key={e.id}
-            toggleComplete={toggleComplete}
-            deleteItem={deleteItem}
-            editItem={editItem}
-          />
-        );
+        return e.isEditing ? (<EditingForm editItem={editTask} task={e} />)
+          : (
+            <ListTasks
+              task={e}
+              key={e.id}
+              toggleComplete={toggleComplete}
+              deleteItem={deleteItem}
+              editItem={editItem}
+            />
+          );
       })}
     </div>
   );
 };
 
 export default App;
+
+
